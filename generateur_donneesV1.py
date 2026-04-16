@@ -198,7 +198,53 @@ def generer_contacts_clients(df_sinistres, n_contacts=10000):
         if resolution_premier_contact == "non": prob_escalade += 0.4
         escalade = "oui" if random.random() < prob_escalade else "non"
 
-        # 4. Calcul du score de satisfaction (1 à 10) basé sur les irritants
+# 4. GÉNÉRATION DES CONTACTS CLIENTS (FACT TABLE)
+
+def generer_contacts_clients(df_sinistres, n_contacts=10000):
+    contacts_data = []
+
+    canaux = ["telephone", "mail", "visite"]
+    poids_canaux = [60, 30, 10]
+
+    motifs = [
+        "declaration_sinistre",
+        "relance_dossier",
+        "demande_avancement",
+        "contestation_indemnisation",
+        "piece_manquante",
+        "expertise",
+        "reclamation_delai",
+        "incomprehension_garantie"
+    ]
+    poids_motifs = [18, 20, 24, 8, 14, 6, 6, 4]
+    
+    for i in range(1, n_contacts + 1):
+        sinistre = df_sinistres.sample(1).iloc[0]
+
+        sinistre_id = sinistre["sinistre_id"]
+        client_id = sinistre["client_id"]
+        date_ouverture = datetime.strptime(sinistre["date_ouverture"], "%Y-%m-%d")
+
+        date_contact = fake.date_between(start_date=date_ouverture, end_date='today')
+
+        # tirage pondéré
+        canal = random.choices(canaux, weights=poids_canaux, k=1)[0]
+        motif = random.choices(motifs, weights=poids_motifs, k=1)[0]
+
+        temps_attente_sec = random.randint(0, 900)
+        nb_transferts = random.randint(0, 3)
+        duree_traitement_min = random.randint(1, 30)
+        
+        resolution_premier_contact = random.choices(["oui", "non"], weights=[0.6, 0.4])[0]
+        
+        prob_escalade = 0.1
+        if nb_transferts > 1:
+            prob_escalade += 0.3
+        if resolution_premier_contact == "non":
+            prob_escalade += 0.4
+
+        escalade = "oui" if random.random() < prob_escalade else "non"
+
         satisfaction = 5
 
         if temps_attente_sec > 600:
@@ -219,8 +265,6 @@ def generer_contacts_clients(df_sinistres, n_contacts=10000):
             satisfaction -= 1
         
         satisfaction = max(1, min(5, satisfaction))
-
-    
 
         contacts_data.append({
             "contact_id": i,
