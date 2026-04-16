@@ -159,51 +159,6 @@ def generer_contacts_clients(df_sinistres, n_contacts=10000):
     contacts_data = []
 
     canaux = ["telephone", "mail", "visite"]
-    motifs = [
-        "declaration_sinistre",
-        "relance_dossier",
-        "demande_avancement",
-        "contestation_indemnisation",
-        "piece_manquante",
-        "expertise",
-        "reclamation_delai",
-        "incomprehension_garantie"
-    ]
-    
-    for i in range(1, n_contacts + 1):
-        # On pioche un sinistre RÉEL
-
-        sinistre = df_sinistres.sample(1).iloc[0]
-
-        sinistre_id = sinistre["sinistre_id"]
-        client_id = sinistre["client_id"]
-        date_ouverture = datetime.strptime(sinistre["date_ouverture"], "%Y-%m-%d")
-
-        # La date de contact doit être postérieure à la date d'ouverture
-        date_contact = fake.date_between(start_date=date_ouverture, end_date='today')
-
-        # 1. Variables indépendantes
-        canal = random.choice(canaux)
-        motif = random.choice(motifs)
-        temps_attente_sec = random.randint(0, 900)
-        nb_transferts = random.randint(0, 3)
-        duree_traitement_min = random.randint(1, 30)
-        
-        # 2. [MODIFIÉ] : (60% de réussite au 1er appel)
-        resolution_premier_contact = random.choices(["oui", "non"], weights=[0.6, 0.4])[0]
-        
-        # 3. [MODIFIÉ] :
-        prob_escalade = 0.1
-        if nb_transferts > 1: prob_escalade += 0.3
-        if resolution_premier_contact == "non": prob_escalade += 0.4
-        escalade = "oui" if random.random() < prob_escalade else "non"
-
-# 4. GÉNÉRATION DES CONTACTS CLIENTS (FACT TABLE)
-
-def generer_contacts_clients(df_sinistres, n_contacts=10000):
-    contacts_data = []
-
-    canaux = ["telephone", "mail", "visite"]
     poids_canaux = [60, 30, 10]
 
     motifs = [
