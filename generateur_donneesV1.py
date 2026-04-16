@@ -128,11 +128,11 @@ clients_df = pd.DataFrame(clients_data)
 # 3. GÉNÉRATION DES SINISTRES (Cohérence Totale)
 def generer_sinistres(df_clients, n_sinistres=2000):
     sinistres_data = []
+    today = datetime.today()
+
     for i in range(1, n_sinistres + 1):
-        # On pioche un client RÉEL
         client = df_clients.sample(1).iloc[0]
         c_id = client['client_id']
-        # On récupère sa date d'inscription pour ne pas créer de sinistre AVANT
         c_inscription = datetime.strptime(client['date_inscription'], "%Y-%m-%d")
 
         date_ouvert = fake.date_between(start_date=c_inscription, end_date='today')
@@ -140,15 +140,24 @@ def generer_sinistres(df_clients, n_sinistres=2000):
         year = date_ouvert.year
         sinistre_id = int(f"{year}{str(i).zfill(5)}")
 
+        # Ancienneté des dossiers
+        anciennete = (today - date_ouvert).days
+
+        if anciennete > 360:
+            statut = "clos"
+        else:
+            statut = random.choice(["ouvert", "en cours"])
+
         sinistres_data.append({
             "sinistre_id": sinistre_id,
             "client_id": c_id,
             "date_ouverture": date_ouvert.strftime("%Y-%m-%d"),
             "type_sinistre": random.choice(["auto", "habitation"]),
-            "statut_dossier": random.choice(["ouvert", "en cours", "clos"]),
+            "statut_dossier": statut,
             "montant_estime": round(random.uniform(100.0, 15000.0), 2),
             "date_derniere_action": date_action.strftime("%Y-%m-%d")
         })
+
     return pd.DataFrame(sinistres_data)
 
 sinistres_df = generer_sinistres(clients_df)
@@ -180,8 +189,9 @@ def generer_contacts_clients(df_sinistres, n_contacts=10000):
         client_id = sinistre["client_id"]
         date_ouverture = datetime.strptime(sinistre["date_ouverture"], "%Y-%m-%d")
 
-        date_contact = fake.date_between(start_date=date_ouverture, end_date='today')
-
+        jours_apres_ouverture = random.randint(0, 730)
+        date_contact = date_ouverture + timedelta(days=jours_apres_ouverture)
+        
         # tirage pondéré
         canal = random.choices(canaux, weights=poids_canaux, k=1)[0]
         motif = random.choices(motifs, weights=poids_motifs, k=1)[0]
