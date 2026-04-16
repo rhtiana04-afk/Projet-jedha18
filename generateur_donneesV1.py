@@ -184,7 +184,15 @@ def generer_contacts_clients(df_sinistres, n_contacts=10000):
     poids_motifs = [18, 20, 24, 8, 14, 6, 6, 4]
     
     for i in range(1, n_contacts + 1):
-        sinistre = df_sinistres.sample(1).iloc[0]
+        sinistres_actifs = df_sinistres[df_sinistres["statut_dossier"].isin(["ouvert", "en cours"])]
+        sinistres_clos = df_sinistres[df_sinistres["statut_dossier"] == "clos"]
+    
+        if random.random() < 0.95:
+            sinistre = sinistres_actifs.sample(1).iloc[0]
+        else:
+            sinistre = sinistres_clos.sample(1).iloc[0]
+        
+        
 
         sinistre_id = sinistre["sinistre_id"]
         client_id = sinistre["client_id"]
