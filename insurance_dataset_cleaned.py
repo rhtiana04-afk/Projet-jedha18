@@ -17,6 +17,10 @@ df['Gender'] = df['Gender'].fillna('Unknown')
 mediane_premium = df['Premium'].median()
 df['Premium'] = df['Premium'].fillna(mediane_premium)
 
+# Missing value Customer Satisfaction
+mediane_satisfaction = df['Customer_Satisfaction'].median()
+df['Customer_Satisfaction'] = df['Customer_Satisfaction'].fillna(mediane_satisfaction)
+
 print(f"Taille du fichier après nettoyage : {df.shape}")
 
 df.to_csv("insurance_dataset_clean.csv", index=False)
