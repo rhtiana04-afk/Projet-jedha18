@@ -1,0 +1,4 @@
+pandas
+faker
+sqlalchemy
+psycopg2-binary
