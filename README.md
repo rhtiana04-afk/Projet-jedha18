@@ -11,7 +11,7 @@ Ce projet vise à simuler un environnement de service client pour une compagnie 
 
 ### 1. Prérequis
 Assurez-vous d'avoir Python 3 et Docker installés sur votre machine.
-
+hhuso
 ### 2. Lancer la base de données
 Dans le terminal, à la racine du projet :
 ```bash
