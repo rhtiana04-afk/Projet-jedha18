@@ -6,7 +6,7 @@ on:
 
 jobs:
   scheduled:
-    if: vars.ENABLE_CRON == "true"
+    if: vars.ENABLE_CRON == true
     runs-on: ubuntu-latest
 
     env:
