@@ -145,7 +145,7 @@ def generer_contacts_clients(df_sinistres, n_contacts=5):
             "contact_id": prochain_contact_id,
             "sinistre_id": sinistre_id,
             "client_id": client_id,
-            "date_contact": date_contact.strftime("%Y-%m-%d %H:%M:%S"),
+            "date_contact": date_contact,
             "canal": canal,
             "motif_contact": motif,
             "temps_attente_sec": temps_attente_sec,
