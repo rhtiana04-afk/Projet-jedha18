@@ -3,7 +3,7 @@ name: Flux contacts vers Supabase
 on:
   workflow_dispatch:
   schedule:
-    - cron: "5,10,15,20,25 * * * *"
+    - cron: "*/5 * * * *"
 
 jobs:
   run-flux-contacts:
