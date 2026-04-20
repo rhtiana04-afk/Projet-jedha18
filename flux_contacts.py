@@ -156,7 +156,7 @@ def generer_contacts_clients(df_sinistres, n_contacts=5):
             "satisfaction_score": satisfaction,
             "nb_contacts_precedents": random.randint(0, 5)
         })
-
+        prochain_contact_id += 1
     return pd.DataFrame(contacts_data)
 
 
