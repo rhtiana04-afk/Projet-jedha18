@@ -112,7 +112,13 @@ for i in range(1, n_clients + 1):
     # Date naissance (18-80 ans)
     birthdate = fake.date_of_birth(minimum_age=18, maximum_age=80)
     # Inscription (Après ses 18 ans et avant aujourd'hui)
-    signup_date = fake.date_between(start_date=birthdate + timedelta(days=18*365), end_date='today')
+    majorite = birthdate + timedelta(days=18*365)
+    date_min_inscription = datetime(2010, 1, 1).date()
+
+    signup_date = fake.date_between(
+    start_date=max(majorite, date_min_inscription),
+    end_date='today'
+    )
 
     clients_data.append({
         "client_id": i,
@@ -147,7 +153,11 @@ def generer_sinistres(df_clients, n_sinistres=2000):
         if anciennete > 360:
             statut = "clos"
         else:
-            statut = random.choice(["ouvert", "en cours"])
+            statut = random.choices(
+                ["ouvert", "en cours"],
+                weights=[0.3, 0.7],
+                k=1
+            )[0]
 
         sinistres_data.append({
             "sinistre_id": sinistre_id,
