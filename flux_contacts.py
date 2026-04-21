@@ -90,10 +90,7 @@ def generer_contacts_clients(df_sinistres, n_contacts=5):
         client_id = sinistre["client_id"]
         date_ouverture = pd.to_datetime(sinistre["date_ouverture"])
 
-        date_contact = min(
-            date_ouverture + timedelta(days=random.randint(0, 360)),
-            datetime.today()
-        )
+        date_contact = date_contact = datetime.today().replace(microsecond=0)
 
         canal = random.choices(canaux, weights=poids_canaux, k=1)[0]
         motif = random.choices(motifs, weights=poids_motifs, k=1)[0]
