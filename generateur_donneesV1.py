@@ -207,8 +207,9 @@ def generer_contacts_clients(df_sinistres, n_contacts=10000):
         sinistre_id = sinistre["sinistre_id"]
         client_id = sinistre["client_id"]
         date_ouverture = datetime.strptime(sinistre["date_ouverture"], "%Y-%m-%d")
+        max_jours = min((datetime.today() - date_ouverture).days, 360)
 
-        jours_apres_ouverture = random.randint(0, 730)
+        jours_apres_ouverture = random.randint(0, max(0, max_jours))
         date_contact = date_ouverture + timedelta(days=jours_apres_ouverture)
         
         # tirage pondéré
@@ -217,7 +218,10 @@ def generer_contacts_clients(df_sinistres, n_contacts=10000):
 
         temps_attente_sec = random.randint(0, 900)
         nb_transferts = random.randint(0, 3)
-        duree_traitement_min = random.randint(1, 30)
+        durees = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30]
+        poids_durees = [1, 2, 4, 6, 10, 14, 18, 14, 10, 8, 4, 3, 2, 1]
+
+        duree_traitement_min = random.choices(durees, weights=poids_durees, k=1)[0]
         
         resolution_premier_contact = random.choices(["oui", "non"], weights=[0.6, 0.4])[0]
         
