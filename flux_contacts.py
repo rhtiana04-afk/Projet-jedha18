@@ -166,7 +166,7 @@ def construire_dataframe_enrichi(df_contacts, df_sinistres, df_clients):
         .merge(df_clients, on="client_id", how="left")
     )
 
-API_URL = "http://127.0.0.1:8000/predict/batch"
+API_URL = "https://dupleixm-jedha-project.hf.space/predict/batch"
 
 
 def envoyer_a_api(df_enrichi):
