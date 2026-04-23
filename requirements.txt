@@ -1,4 +1,5 @@
 pandas
 faker
-sqlalchemy
+python-dotenv
+supabase
 psycopg2-binary
