@@ -63,6 +63,4 @@ Ce projet illustre comment l’exploitation des données permet d’anticiper le
 
 ## Auteurs 
 
-Elizabeth POZOS
-Hery RAKOTONDRATRIMO
-Mirabelle DUPLEIX
+Elizabeth POZOS - Hery RAKOTONDRATRIMO - Mirabelle DUPLEIX
