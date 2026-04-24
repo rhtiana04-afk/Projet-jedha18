@@ -1,18 +1,68 @@
-# 🛡️ Projet final
+# 🚀 Détection des contacts à risque d’insatisfaction 
 
-Ce projet vise à simuler un environnement de service client pour une compagnie d'assurance, afin de permettre l'analyse de données et la prédiction de la satisfaction client via le Machine Learning.
+## 🎯 Objectif
 
-## 🏗️ Structure du Projet
-- `simulateur_final.py` : Le script principal qui génère les clients, les sinistres et les scores de satisfaction.
-- `docker-compose.yml` : Configuration pour lancer la base de données PostgreSQL et l'interface Adminer.
-- `requirements.txt` : Liste des bibliothèques Python nécessaires (Faker, Pandas, Psycopg2).
+Dans un service client assurance, l’insatisfaction ne se manifeste pas toujours de manière explicite dès le départ. 
+Elle peut aussi se construire progressivement, à travers des irritants tels que :
 
-## 🚀 Installation et Lancement
+- des délais de traitement trop longs  
+- des relances répétées  
+- des transferts multiples  
+- un manque de clarté dans le suivi  
 
-### 1. Prérequis
-Assurez-vous d'avoir Python 3 et Docker installés sur votre machine.
-hhuso
-### 2. Lancer la base de données
-Dans le terminal, à la racine du projet :
-```bash
-docker-compose up -d
+👉 L’objectif de ce projet est de **détecter ces situations à risque le plus tôt possible**, afin de :
+- prioriser les actions des équipes  
+- améliorer l’expérience client  
+- réduire les coûts opérationnels  
+
+---
+
+## ⚙️ Fonctionnement
+
+Le projet repose sur un pipeline data complet :
+
+Génération de contacts → Scoring ML → Stockage (Supabase) → Dashboard Power BI
+
+### 🔹 Génération de données
+- simulation de clients, sinistres et contacts  
+- scénarios réalistes (attente, motifs, transferts…)  
+
+### 🔹 Flux de contacts
+- script `flux_contacts.py`  
+- génération continue de nouveaux contacts  
+- insertion dans Supabase  
+
+### 🔹 Machine Learning
+- modèle entraîné dans `machine_learning.ipynb`  
+- prédiction d’un **score de satisfaction (1 à 5)**  
+- pipeline complet (preprocessing + modèle)  
+
+### 🔹 API (FastAPI)
+- endpoint `/predict`  
+- prédiction du score à partir des caractéristiques d’un contact  
+- déployée via Docker sur Hugging Face  
+
+### 🔹 Visualisation
+- dashboard Power BI  
+- page dédiée aux alertes  
+- supervision des contacts à risque  
+
+
+## 🛠️ Stack technique
+
+- Python (Faker, Pandas, NumPy)
+- Scikit-learn
+- FastAPI
+- Docker
+- Supabase (PostgreSQL)
+- Power BI
+
+## Conclusion
+
+Ce projet illustre comment l’exploitation des données permet d’anticiper les situations à risque et d’améliorer la gestion de la relation client.
+
+## Auteurs 
+
+Elizabeth POZOS
+Hery RAKOTONDRATRIMO
+Mirabelle DUPLEIX
